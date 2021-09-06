@@ -1,6 +1,6 @@
 import threading
-import time
 
+import time
 import cv2
 
 myBool = False
@@ -14,6 +14,7 @@ def toggleBool():
 height = 1
 width = 1
 
+
 def updateVals():
     global height, width
     a = input("new height: ")
@@ -21,10 +22,11 @@ def updateVals():
     height = a
     width = b
 
+
 def app():
     thread1 = threading.Thread(name='wheather', target=scraper)
     thread1.start()
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
     # Check if the webcam is opened correctly
     if not cap.isOpened():
@@ -42,9 +44,8 @@ def app():
             toggleBool()
 
         if myBool:
-            y = 50
+            y = 75
             yOffset = 30
-            stringer = scraper()
             frame = cv2.putText(frame, str(getScraped()[0]), (50, y), cv2.FONT_HERSHEY_SIMPLEX,
                                 0.75, (255, 0, 255), 2, cv2.LINE_AA)
             frame = cv2.putText(frame, str(getScraped()[1]), (50, y + yOffset), cv2.FONT_HERSHEY_SIMPLEX,
@@ -58,6 +59,7 @@ def app():
 
     cap.release()
     cv2.destroyAllWindows()
+
 
 def scraper():
     while True:
@@ -89,10 +91,12 @@ def scraper():
 
         time.sleep(59)
 
+
 def getScraped():
     global temperature, report
     return 'Temperature: ' + str(int((int(temperature) - 273.15) / 5 * 9 + 32)), 'Weather Report: ' + report[0][
         'description']
+
 
 # TODO: remove this
 if __name__ == '__main__':
